@@ -1,31 +1,33 @@
-// page.tsx
-"use client"; // Ensure the page is rendered on the client-side in Next.js
+'use client';  // Add 'use client' directive
 
-import React, { useState } from "react";
-import Form from "./Form/Form"; // Import the Form component
-import Resume from "./Components/Resume/Resume"; // Import the Resume component
-import { ResumeData } from "./types"; // Import the ResumeData type for type safety
+import { useState } from "react";
+import Form from "./Components/form";
+import Resume from "./Components/resume";
 
-const MainPage: React.FC = () => {
-  const [resumeData, setResumeData] = useState<ResumeData | null>(null);
+// Updated resumeData structure to match ResumeData type
+const Home = () => {
+  const [resumeData, setResumeData] = useState({
+    personalInfo: { name: "John Doe", email: "john.doe@example.com" },
+    education: [{ degree: "B.Sc", institute: "University XYZ" }],
+    workExperience: [{ jobTitle: "Software Developer", company: "TechCorp" }],
+    skills: ["JavaScript", "React", "Node.js"],
+    digitalLiteracy: ["MS Office", "Google Suite"],
+    languages: ["English", "Spanish"],
+  });
 
-  // Handle the form submission to update resumeData state
-  const handleFormSubmit = (data: ResumeData) => {
-    setResumeData(data);
+  const handleBack = () => {
+    console.log("Back button clicked");
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-8">
-      <h1 className="text-3xl font-bold text-center mb-6">Build Your Resume</h1>
-
-      {/* Display Form if resumeData is null, otherwise show the Resume */}
-      {resumeData === null ? (
-        <Form onSubmit={handleFormSubmit} />
-      ) : (
-        <Resume data={resumeData} />
-      )}
+    <div className="container mx-auto p-8">
+      <h1 className="text-3xl font-bold text-center mb-8">Resume Builder</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Form onSubmit={setResumeData} />
+        <Resume data={resumeData} onBack={handleBack} />
+      </div>
     </div>
   );
 };
 
-export default MainPage;
+export default Home;
